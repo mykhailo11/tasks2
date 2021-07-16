@@ -1,0 +1,93 @@
+package test;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+import main.tasks.Task1;
+import main.tasks.Task2;
+import main.tasks.Task3;
+import main.tasks.Task4;
+import main.tasks.Task5;
+
+import java.math.BigInteger;
+
+public class TasksTest {
+    
+
+    private final static BigInteger[][] task1Cases = new BigInteger[][]{
+        { BigInteger.valueOf(40), BigInteger.valueOf(50) },
+        { BigInteger.valueOf(-11), BigInteger.valueOf(45) },
+        { BigInteger.valueOf(-321), BigInteger.valueOf(-43) },
+        { BigInteger.valueOf(1012), BigInteger.valueOf(-5) }
+    };
+    private final static BigInteger[][] task2Cases2 = new BigInteger[][] {
+        { BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(1), BigInteger.valueOf(1) },
+        { BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(36), BigInteger.valueOf(9) },
+        { BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(37), BigInteger.valueOf(1) },
+        { BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(72), BigInteger.valueOf(9) }
+    };
+    private final static BigInteger[][] task2Cases1 = new BigInteger[][]{
+        { BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(1), BigInteger.valueOf(1) },
+        { BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(36), BigInteger.valueOf(1) },
+        { BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(37), BigInteger.valueOf(2) },
+        { BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(72), BigInteger.valueOf(2) }
+    };
+    private final static BigInteger[][] task3Cases = new BigInteger[][]{
+        { BigInteger.valueOf(4), BigInteger.valueOf(16), BigInteger.valueOf(24), BigInteger.valueOf(36), BigInteger.valueOf(4) },
+        { BigInteger.valueOf(9), BigInteger.valueOf(12), BigInteger.valueOf(18), BigInteger.valueOf(27), BigInteger.valueOf(3) },
+        { BigInteger.valueOf(11), BigInteger.valueOf(4), BigInteger.valueOf(10), BigInteger.valueOf(9), BigInteger.valueOf(1) }
+    };
+    private final static BigInteger[][] task4Cases = new BigInteger[][] {
+        { BigInteger.valueOf(1), BigInteger.valueOf(1) },
+        { BigInteger.valueOf(4), BigInteger.valueOf(3) },
+        { BigInteger.valueOf(5), BigInteger.valueOf(5) },
+        { BigInteger.valueOf(7), BigInteger.valueOf(13) }
+    };
+    private final static BigInteger[][] task5Cases = new BigInteger[][]{
+        { BigInteger.valueOf(2), BigInteger.valueOf(16), BigInteger.valueOf(6), BigInteger.valueOf(3) },
+        { BigInteger.valueOf(4), BigInteger.valueOf(11), BigInteger.valueOf(0), BigInteger.valueOf(1) }
+    };
+
+    @Test
+    public void afterChangeValueCalledBAndAAreReplaced(){
+        for (BigInteger[] pair : task1Cases){
+            Task1 task1 = new Task1(pair[0], pair[1]);
+            task1.changeValues();
+            assertEquals(pair[1], task1.getA());
+            assertEquals(pair[0], task1.getB());
+        }
+    }
+    @Test
+    public void getBlockReturnsBlockNumberOfSpecifiedRoomNumber(){
+        for (BigInteger[] params : task2Cases1){
+            Task2 task2 = new Task2(params[0], params[1]);
+            assertEquals(params[3], task2.getBlock(params[2]));
+        }
+    }
+    @Test
+    public void getStageReturnsStageNumberOfSpecifiedRoomNumber(){
+        for (BigInteger[] params : task2Cases2){
+            Task2 task2 = new Task2(params[0], params[1]);
+            assertEquals(params[3], task2.getStage(params[2]));
+        }
+    }
+    @Test
+    public void evaluateGCDReturnsTheGreatestCommonDividerOfFourNumbers(){
+        for (BigInteger[] nums : task3Cases){
+            Task3 task3 = new Task3(nums[0], nums[1], nums[3], nums[2]);
+            assertEquals(nums[4], task3.evaluateGCD());
+        }
+    }
+    @Test
+    public void getFibonacciNumberReturnsNumberInFibonacciSequenceAtSpecifiedIndex(){
+        for (BigInteger[] pair : task4Cases){
+            assertEquals(pair[1], Task4.getFibonacciNumber(pair[0]));
+        }
+    }
+    @Test
+    public void getWeekDayOfReturnsDayOfTheWeekAccordingToTheSpecifiedDay(){
+        for (BigInteger[] params : task5Cases){
+            assertEquals(params[3], Task5.getWeekDayOf(params[0], params[1], params[2]));
+        }
+    }
+}
