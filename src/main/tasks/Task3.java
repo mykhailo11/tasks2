@@ -6,7 +6,7 @@ import java.math.BigInteger;
 public class Task3 {
 
     private static final int SIZE = 4;
-    private BigInteger[] nums;
+    private final BigInteger[] nums;
 
     public Task3(BigInteger... nums) throws IllegalArgumentException{
         if (nums.length < SIZE){
