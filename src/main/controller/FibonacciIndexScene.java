@@ -1,42 +1,37 @@
 package main.controller;
 
-import main.tasks.Task1;
+import main.tasks.Task4;
 import main.view.Renderer;
 import main.view.Subscriber;
 import java.math.BigInteger;
 import java.util.Objects;
 import java.util.Queue;
 
-public class ChangeNumbersScene implements SceneState, Subscriber {
+public class FibonacciIndexScene implements Subscriber, SceneState {
 
     private final Renderer renderer;
     private final RenderedStatedClass statedClass;
 
-    public ChangeNumbersScene(RenderedStatedClass statedClass){
+    public FibonacciIndexScene(RenderedStatedClass statedClass){
         renderer = new Renderer();
         renderer.subscribe(this);
         this.statedClass = statedClass;
     }
     @Override
     public void render() {
-        renderer.addInput("Enter a: ");
-        renderer.addInput("Enter b: ");
+        renderer.addInput("Enter Fibonacci number:");
         renderer.render();
     }
-    private void renderResult(BigInteger a, BigInteger b){
-        renderer.addLabel("Now, a is " + a + " and b is " + b);
+    public void renderResult(long result){
+        renderer.addLabel(result >= 0 ? "The index of specified element is " + result : "The number is not a Fibonacci one");
         renderer.render();
     }
 
     @Override
     public void alert() {
-        try{
+        try {
             Queue<String> inputs = renderer.getInputs();
-            BigInteger a = new BigInteger(Objects.requireNonNull(inputs.poll()));
-            BigInteger b = new BigInteger(Objects.requireNonNull(inputs.poll()));
-            Task1 task1 = new Task1(a, b);
-            task1.changeValues();
-            renderResult(a, b);
+            renderResult(Task4.getIndexOfFibonacciNumber(new BigInteger(Objects.requireNonNull(inputs.poll()))));
             if (statedClass.isEndless()){
                 statedClass.changeState(new MainScene(statedClass));
             }

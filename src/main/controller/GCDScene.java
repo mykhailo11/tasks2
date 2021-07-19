@@ -10,9 +10,9 @@ import java.util.Queue;
 public class GCDScene implements SceneState, Subscriber {
 
     private final Renderer renderer;
-    private final StatedClass statedClass;
+    private final RenderedStatedClass statedClass;
 
-    public GCDScene(StatedClass statedClass){
+    public GCDScene(RenderedStatedClass statedClass){
         renderer = new Renderer();
         renderer.subscribe(this);
         this.statedClass = statedClass;

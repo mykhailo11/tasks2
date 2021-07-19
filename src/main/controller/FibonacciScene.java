@@ -10,9 +10,9 @@ import java.util.Queue;
 public class FibonacciScene implements SceneState, Subscriber {
 
     private final Renderer renderer;
-    private final StatedClass statedClass;
+    private final RenderedStatedClass statedClass;
 
-    public FibonacciScene(StatedClass statedClass){
+    public FibonacciScene(RenderedStatedClass statedClass){
         renderer = new Renderer();
         renderer.subscribe(this);
         this.statedClass = statedClass;
@@ -23,7 +23,9 @@ public class FibonacciScene implements SceneState, Subscriber {
         renderer.render();
     }
     private void renderResult(BigInteger index){
-        renderer.addLabel("The Fibonacci number at " + index + " is " + Task4.getFibonacciNumber(index));
+        BigInteger result = Task4.getFibonacciNumber(index);
+        renderer.addLabel("The Fibonacci number at " + index + " is " + result);
+        renderer.addLabel(Task4.isFibonacci(result) ? "And it is real Fibonacci number" : "But for some reason it is wrong result");
         renderer.render();
     }
 

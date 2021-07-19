@@ -8,9 +8,9 @@ import java.util.Queue;
 public class MainScene implements SceneState, Subscriber {
 
     private final Renderer renderer;
-    private final StatedClass statedClass;
+    private final RenderedStatedClass statedClass;
 
-    public MainScene(StatedClass statedClass){
+    public MainScene(RenderedStatedClass statedClass){
         renderer = new Renderer();
         renderer.subscribe(this);
         this.statedClass = statedClass;
@@ -18,7 +18,7 @@ public class MainScene implements SceneState, Subscriber {
     @Override
     public void render() {
         renderer.addLabel("Choose option");
-        renderer.addInput("Choose option:\n1 - Change numbers values\n2 - Get block and stage of the room\n3 - Get GCD of 4 numbers\n4 - Get Fibonacci number by index\n5 - Get day of the week corresponding to the date\n6 - Exit");
+        renderer.addInput("Choose option:\n1 - Change numbers values\n2 - Get block and stage of the room\n3 - Get GCD of 4 numbers\n4 - Get Fibonacci number by index\n5 - Get day of the week corresponding to the date\n6 - Check Fibonacci number\n7 - Get index of a Fibonacci number\n8 - Exit");
         renderer.render();
     }
 
@@ -44,6 +44,11 @@ public class MainScene implements SceneState, Subscriber {
                     statedClass.changeState(new WeekDayScene(statedClass));
                     break;
                 case 6:
+                    statedClass.changeState(new CheckingFibonacciNumberScene(statedClass));
+                    break;
+                case 7:
+                    statedClass.changeState(new FibonacciIndexScene(statedClass));
+                case 8:
                     break;
                 default:
                     statedClass.changeState(new MainScene(statedClass));

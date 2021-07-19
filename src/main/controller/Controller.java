@@ -1,6 +1,6 @@
 package main.controller;
 
-public class Controller implements StatedClass {
+public class Controller implements RenderedStatedClass {
 
     private SceneState state;
     private final boolean endless;

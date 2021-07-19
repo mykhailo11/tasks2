@@ -10,9 +10,9 @@ import java.util.Queue;
 public class BlockStageScene implements SceneState, Subscriber {
 
     private final Renderer renderer;
-    private final StatedClass statedClass;
+    private final RenderedStatedClass statedClass;
 
-    public BlockStageScene(StatedClass statedClass){
+    public BlockStageScene(RenderedStatedClass statedClass){
         renderer = new Renderer();
         renderer.subscribe(this);
         this.statedClass = statedClass;

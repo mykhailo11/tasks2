@@ -6,10 +6,10 @@ import main.view.Subscriber;
 public class ErrorScene implements SceneState, Subscriber {
 
     private final Renderer renderer;
-    private final StatedClass statedClass;
+    private final RenderedStatedClass statedClass;
     private final String error;
 
-    public ErrorScene(StatedClass statedClass, String error){
+    public ErrorScene(RenderedStatedClass statedClass, String error){
         renderer = new Renderer();
         renderer.subscribe(this);
         this.statedClass = statedClass;

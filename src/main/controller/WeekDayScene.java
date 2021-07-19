@@ -10,9 +10,9 @@ import java.util.Queue;
 public class WeekDayScene implements SceneState, Subscriber {
 
     private final Renderer renderer;
-    private final StatedClass statedClass;
+    private final RenderedStatedClass statedClass;
 
-    public WeekDayScene(StatedClass statedClass){
+    public WeekDayScene(RenderedStatedClass statedClass){
         renderer = new Renderer();
         renderer.subscribe(this);
         this.statedClass = statedClass;
@@ -33,9 +33,9 @@ public class WeekDayScene implements SceneState, Subscriber {
     public void alert() {
         try{
             Queue<String> inputs = renderer.getInputs();
-            BigInteger newYearWeekDay = new BigInteger(Objects.requireNonNull(inputs.poll()));
-            BigInteger monthDay = new BigInteger(Objects.requireNonNull(inputs.poll()));
-            BigInteger month = new BigInteger(Objects.requireNonNull(inputs.poll()));
+            BigInteger newYearWeekDay = new BigInteger(Objects.requireNonNull(inputs.poll())).subtract(BigInteger.ONE);
+            BigInteger monthDay = new BigInteger(Objects.requireNonNull(inputs.poll())).subtract(BigInteger.ONE);
+            BigInteger month = new BigInteger(Objects.requireNonNull(inputs.poll())).subtract(BigInteger.ONE);
             renderResult(Task5.getWeekDayOf(newYearWeekDay, monthDay, month).add(BigInteger.ONE));
             if (statedClass.isEndless()){
                 statedClass.changeState(new MainScene(statedClass));
