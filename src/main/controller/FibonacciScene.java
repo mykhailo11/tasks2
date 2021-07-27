@@ -23,9 +23,13 @@ public class FibonacciScene implements SceneState, Subscriber {
         renderer.render();
     }
     private void renderResult(BigInteger index){
-        BigInteger result = Task4.getFibonacciNumber(index);
-        renderer.addLabel("The Fibonacci number at " + index + " is " + result);
-        renderer.addLabel(Task4.isFibonacci(result) ? "And it is real Fibonacci number" : "But for some reason it is wrong result");
+        try {
+            BigInteger result = Task4.getFibonacciNumber(index);
+            renderer.addLabel("The Fibonacci number at " + index + " is " + result);
+            renderer.addLabel(Task4.isFibonacci(result) ? "And it is real Fibonacci number" : "But for some reason it is wrong result");
+        }catch (ArithmeticException ex){
+            renderer.addLabel(ex.getMessage());
+        }
         renderer.render();
     }
 
@@ -38,7 +42,7 @@ public class FibonacciScene implements SceneState, Subscriber {
             if (statedClass.isEndless()){
                 statedClass.changeState(new MainScene(statedClass));
             }
-        }catch (NumberFormatException | NullPointerException ex){
+        }catch (NumberFormatException | NullPointerException | ArithmeticException ex){
             statedClass.changeState(new ErrorScene(statedClass, ex.getMessage()));
         }
     }

@@ -3,23 +3,28 @@ package main.tasks;
 import java.math.BigInteger;
 
 public class Task4 {
-    
+
+    private static final BigInteger LIMIT = BigInteger.valueOf(20000);
+
     private Task4() { }
-    public static BigInteger getFibonacciNumber(BigInteger index){
-        if (index.compareTo(BigInteger.ZERO) < 0){
-            return BigInteger.ZERO;
+    public static BigInteger getFibonacciNumber(BigInteger index) throws ArithmeticException, NullPointerException{
+        if (index.compareTo(BigInteger.ZERO) < 0 || index.abs().compareTo(LIMIT) > 0){
+            throw new ArithmeticException("The index is out of range");
         }
-        if (index.compareTo(BigInteger.ONE) == 0){
-            return BigInteger.ONE;
+        BigInteger p = BigInteger.ZERO; // zero constant
+        BigInteger c = BigInteger.ONE;  // one constant
+        BigInteger n = p.add(c);        // function add() performs the same operation as operator +
+        for (BigInteger i = BigInteger.ZERO;
+             i.compareTo(index) < 0;    // function i.compareTo(index) returns -1 if i < index
+             i = i.add(BigInteger.ONE)) {                                    // 0 if i == index
+            p = c;                                                           // 1 if i > index
+            c = n;
+            n = p.add(c);
         }
-        BigInteger previous = BigInteger.ZERO;
-        BigInteger current = BigInteger.ONE;
-        for (BigInteger i = BigInteger.valueOf(2); i.compareTo(index) <= 0; i = i.add(BigInteger.ONE)){
-            BigInteger buf = previous;
-            previous = current;
-            current = buf.add(previous);
-        }
-        return current;
+        return p;
+    }
+    public static BigInteger getLimit(){
+        return LIMIT;
     }
     public static boolean isFibonacci(BigInteger fibonacciNum){
         BigInteger base = fibonacciNum.pow(2).multiply(BigInteger.valueOf(5));

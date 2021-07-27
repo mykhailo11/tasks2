@@ -1,43 +1,31 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import ch.obermuhlner.math.big.BigDecimalMath;
+import org.junit.jupiter.api.Test;
 import main.tasks.Task1;
 import main.tasks.Task2;
 import main.tasks.Task3;
 import main.tasks.Task4;
 import main.tasks.Task5;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class TasksTest {
 
-    private final static BigInteger[][] task1Cases = new BigInteger[][]{
-            {BigInteger.valueOf(40), BigInteger.valueOf(50)},
-            {BigInteger.valueOf(-11), BigInteger.valueOf(45)},
-            {BigInteger.valueOf(-321), BigInteger.valueOf(-43)},
-            {BigInteger.valueOf(1012), BigInteger.valueOf(-5)}
-    };
-    private final static BigInteger[][] task2Cases2 = new BigInteger[][]{
-            {BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(1), BigInteger.valueOf(1)},
-            {BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(36), BigInteger.valueOf(9)},
-            {BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(37), BigInteger.valueOf(1)},
-            {BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(72), BigInteger.valueOf(9)}
-    };
-    private final static BigInteger[][] task2Cases1 = new BigInteger[][]{
-            {BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(1), BigInteger.valueOf(1)},
-            {BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(36), BigInteger.valueOf(1)},
-            {BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(37), BigInteger.valueOf(2)},
-            {BigInteger.valueOf(9), BigInteger.valueOf(4), BigInteger.valueOf(72), BigInteger.valueOf(2)}
-    };
-    private final static BigInteger[][] task3Cases = new BigInteger[][]{
-            {BigInteger.valueOf(4), BigInteger.valueOf(16), BigInteger.valueOf(24), BigInteger.valueOf(36), BigInteger.valueOf(4)},
-            {BigInteger.valueOf(9), BigInteger.valueOf(12), BigInteger.valueOf(18), BigInteger.valueOf(27), BigInteger.valueOf(3)},
-            {BigInteger.valueOf(11), BigInteger.valueOf(4), BigInteger.valueOf(10), BigInteger.valueOf(9), BigInteger.valueOf(1)}
-    };
     private final static BigInteger[][] task4Cases1 = new BigInteger[][]{
-            {BigInteger.valueOf(1), BigInteger.valueOf(1)}, //0 1 1 2 3 5
+            {BigInteger.valueOf(0), BigInteger.valueOf(0)},
+            {BigInteger.valueOf(1), BigInteger.valueOf(1)},
             {BigInteger.valueOf(4), BigInteger.valueOf(3)},
             {BigInteger.valueOf(5), BigInteger.valueOf(5)},
             {BigInteger.valueOf(7), BigInteger.valueOf(13)},
@@ -46,79 +34,116 @@ public class TasksTest {
             {BigInteger.valueOf(37), BigInteger.valueOf(24157817)},
             {BigInteger.valueOf(40), BigInteger.valueOf(102334155)}
     };
-    private final static BigInteger[] task4Cases2 = new BigInteger[]{
-            BigInteger.valueOf(144),
-            BigInteger.valueOf(0),
-            BigInteger.valueOf(1),
-            BigInteger.valueOf(102334155),
-            BigInteger.valueOf(9227465)
-    };
-    private final static BigInteger[] task4Cases3 = new BigInteger[]{
-            BigInteger.valueOf(143),
-            BigInteger.valueOf(145),
-            BigInteger.valueOf(4),
-            BigInteger.valueOf(257568),
-            BigInteger.valueOf(102334154),
-            BigInteger.valueOf(102334156)
-    };
-    private final static BigInteger[][] task5Cases = new BigInteger[][]{
-            {BigInteger.valueOf(2), BigInteger.valueOf(16), BigInteger.valueOf(6), BigInteger.valueOf(3)},
-            {BigInteger.valueOf(4), BigInteger.valueOf(11), BigInteger.valueOf(0), BigInteger.valueOf(1)}
-    };
 
-    @Test
-    public void afterChangeValueCalledBAndAAreReplaced() {
-        for (BigInteger[] pair : task1Cases) {
-            Task1 task1 = new Task1(pair[0], pair[1]);
+    @ParameterizedTest
+    @ArgumentsSource(changeValueArgumentsProvider.class)
+    public void afterChangeValueCalledBAndAAreReplaced(BigInteger a, BigInteger b) {
+            Task1 task1 = new Task1(a, b);
             task1.changeValues();
-            assertEquals(pair[1], task1.getA());
-            assertEquals(pair[0], task1.getB());
-        }
+            assertEquals(b, task1.getA());
+            assertEquals(a, task1.getB());
     }
 
-    @Test
-    public void getBlockReturnsBlockNumberOfSpecifiedRoomNumber() {
-        for (BigInteger[] params : task2Cases1) {
-            Task2 task2 = new Task2(params[0], params[1]);
-            assertEquals(params[3], task2.getBlock(params[2]));
-        }
+    @ParameterizedTest
+    @ArgumentsSource(getBlockArgumentsProvider.class)
+    public void getBlockReturnsBlockNumberOfSpecifiedRoomNumber(BigInteger stages, BigInteger rooms,
+                                                                BigInteger room, BigInteger block) {
+            Task2 task2 = new Task2(stages, rooms);
+            assertEquals(block, task2.getBlock(room));
     }
 
-    @Test
-    public void getStageReturnsStageNumberOfSpecifiedRoomNumber() {
-        for (BigInteger[] params : task2Cases2) {
-            Task2 task2 = new Task2(params[0], params[1]);
-            assertEquals(params[3], task2.getStage(params[2]));
-        }
+    @ParameterizedTest
+    @ArgumentsSource(getStageArgumentsProvider.class)
+    public void getStageReturnsStageNumberOfSpecifiedRoomNumber(BigInteger stages, BigInteger rooms,
+                                                                BigInteger room, BigInteger stage) {
+            Task2 task2 = new Task2(stages, rooms);
+            assertEquals(stage, task2.getStage(room));
     }
 
-    @Test
-    public void evaluateGCDReturnsTheGreatestCommonDividerOfFourNumbers() {
-        for (BigInteger[] nums : task3Cases) {
-            Task3 task3 = new Task3(nums[0], nums[1], nums[3], nums[2]);
-            assertEquals(nums[4], task3.evaluateGCD());
-        }
+    @ParameterizedTest
+    @ArgumentsSource(evaluateGCDArgumentsProvider.class)
+    public void evaluateGCDReturnsTheGreatestCommonDividerOfFourNumbers(BigInteger result, BigInteger one,
+                                                                        BigInteger two, BigInteger three,
+                                                                        BigInteger four) {
+            Task3 task3 = new Task3(one, two, three, four);
+            assertEquals(result, task3.evaluateGCD());
     }
 
     @Test
     public void getFibonacciNumberReturnsNumberInFibonacciSequenceAtSpecifiedIndex() {
-        for (BigInteger[] pair : task4Cases1) {
-            assertEquals(pair[1], Task4.getFibonacciNumber(pair[0]));
+
+        //check whether the method returns 0-th Fibonacci number
+        assertEquals(BigInteger.ZERO, Task4.getFibonacciNumber(BigInteger.ZERO));
+        System.out.println("The 0-th passed");
+
+        //check whether the method returns 1-st Fibonacci number
+        assertEquals(BigInteger.ONE, Task4.getFibonacciNumber(BigInteger.ONE));
+        System.out.println("The 1-th passed");
+
+        //starting from the 2-nd element till the limit
+        for (BigInteger i = BigInteger.TWO, limit = Task4.getLimit().divide(BigInteger.valueOf(4));
+             i.compareTo(limit) <= 0;
+             i = i.add(BigInteger.ONE)){
+
+            //getting potential i-th Fibonacci number
+            BigInteger fibonacciNum = Task4.getFibonacciNumber(i);
+
+            //it is known that if A is a Fibonacci number than either
+            // (5 * (A ^ 2) + 4) or
+            // (5 * (A ^ 2) - 4) is a perfect square
+            BigInteger base = fibonacciNum.pow(2).multiply(BigInteger.valueOf(5)); //equals to ((A ^ 2) * 5)
+            BigInteger expr1 = base.add(BigInteger.valueOf(4));                    //equals to ((A ^ 2) * 5 + 4)
+            BigInteger expr2 = base.add(BigInteger.valueOf(-4));                   //equals to ((A ^ 2) * 5 - 4)
+            boolean expr1IsPerfectSquare = expr1.equals(expr1.sqrt().pow(2));
+            boolean expr2IsPerfectSquare = expr2.equals(expr2.sqrt().pow(2));
+
+            //check whether it is true
+            assertTrue(expr1IsPerfectSquare || expr2IsPerfectSquare);
+
+            //it is known that if A is a Fibonacci number (starting from the 2-nd) then index is equals to
+            // round(2.078087... * ln(A) + 1.672276...) for bigger value of A the approximation is more strict
+            //where round(number) returns the nearest integer to the specified number
+            BigInteger actual = BigDecimal.valueOf(2.078087).multiply(BigDecimalMath.log(new BigDecimal(fibonacciNum),
+                            new MathContext(100, RoundingMode.HALF_UP))).add(BigDecimal.valueOf(1.672276))
+                    .setScale(0, RoundingMode.HALF_UP).toBigInteger();
+
+            //check whether the passed index is equal to the actual Fibonacci number index
+            assertEquals(i, actual);
+            //print message about the exact test case success
+            System.out.println("The " + i + "-th passed");
         }
     }
 
-    @Test
-    public void isFibonacciNumberReturnsTrueIfTheNumberIsFibonacciNumber() {
-        for (BigInteger number : task4Cases2) {
-            assertTrue(Task4.isFibonacci(number));
-        }
+    @ParameterizedTest
+    @NullSource
+    public void getFibonacciNumberThrowsNullPointerExceptionWhenNullPassed(BigInteger index){
+        assertThrows(NullPointerException.class, () -> Task4.getFibonacciNumber(index));
     }
 
-    @Test
-    public void isFibonacciNumberReturnsFalseIfTheNumberIsNotFibonacciNumber() {
-        for (BigInteger number : task4Cases3) {
-            assertFalse(Task4.isFibonacci(number));
-        }
+    @ParameterizedTest
+    @ValueSource(longs = {-1, -10, -9876, -654})
+    public void getFibonacciNumberThrowsArithmeticExceptionWhenNegativeIndexPassed(long index){
+            assertThrows(ArithmeticException.class, () -> Task4.getFibonacciNumber(BigInteger.valueOf(index)));
+    }
+    @ParameterizedTest
+    @ValueSource(longs = {1, 1000, 1878, 454})
+    public void getFibonacciNumberTrowsArithmeticExceptionWhenTooBigNumberPassed(long addition){
+
+        BigInteger limit = Task4.getLimit();
+        assertThrows(ArithmeticException.class, () -> Task4.getFibonacciNumber(limit.add(BigInteger.valueOf(addition))));
+        assertThrows(ArithmeticException.class, () -> Task4.getFibonacciNumber(limit.negate()
+                .subtract(BigInteger.valueOf(addition))));
+    }
+    @ParameterizedTest
+    @ValueSource(longs = {0, 1, 102334155, 9227465})
+    public void isFibonacciNumberReturnsTrueIfTheNumberIsFibonacciNumber(long value) {
+            assertTrue(Task4.isFibonacci(BigInteger.valueOf(value)));
+    }
+
+    @ParameterizedTest
+    @ValueSource(longs = {143, 4, 257568, 102334154, 102334156})
+    public void isFibonacciNumberReturnsFalseIfTheNumberIsNotFibonacciNumber(long value) {
+            assertFalse(Task4.isFibonacci(BigInteger.valueOf(value)));
     }
 
     @Test
@@ -128,10 +153,11 @@ public class TasksTest {
         }
     }
 
-    @Test
-    public void getWeekDayOfReturnsDayOfTheWeekAccordingToTheSpecifiedDay() {
-        for (BigInteger[] params : task5Cases) {
-            assertEquals(params[3], Task5.getWeekDayOf(params[0], params[1], params[2]));
-        }
+    @ParameterizedTest
+    @ArgumentsSource(getWeekDayOfArgumentsProvider.class)
+    public void getWeekDayOfReturnsDayOfTheWeekAccordingToTheSpecifiedDay(BigInteger newYearWeekDay,
+                                                                          BigInteger monthDay,
+                                                                          BigInteger month, BigInteger weekDay) {
+        assertEquals(weekDay, Task5.getWeekDayOf(newYearWeekDay, monthDay, month));
     }
 }

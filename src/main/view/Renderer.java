@@ -3,6 +3,7 @@ package main.view;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Queue;
 import java.util.LinkedList;
 
@@ -37,8 +38,14 @@ public class Renderer implements Publisher {
     public void addLabel(String label){
         labels.add(label);
     }
+    public void addLabels(String... labels){
+        this.labels.addAll(Arrays.asList(labels));
+    }
     public void addInput(String inputLabel){
         inputsLabels.add(inputLabel);
+    }
+    public void addInputs(String... inputs){
+        this.inputs.addAll(Arrays.asList(inputs));
     }
     @Override
     public void subscribe(Subscriber sub){
