@@ -14,6 +14,13 @@ public class Task3 {
         }
         this.nums = Arrays.copyOf(nums, SIZE);
     }
+    public void setNumbers(BigInteger... nums){
+        if (nums.length < SIZE){
+            throw new IllegalArgumentException("Too few arguments passed");
+        }
+        System.arraycopy(nums, 0, this.nums, 0, SIZE);
+    }
+
     public BigInteger evaluateGCD(){
         return gcd(findMin());
     }

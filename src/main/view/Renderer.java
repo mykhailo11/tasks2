@@ -1,5 +1,7 @@
 package main.view;
 
+import org.springframework.stereotype.Component;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,6 +9,7 @@ import java.util.Arrays;
 import java.util.Queue;
 import java.util.LinkedList;
 
+//@Component
 public class Renderer implements Publisher {
 
     private final Queue<String> labels;

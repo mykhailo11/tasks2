@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/hamcrest-core-1.3.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/guava-30.1.1-jre.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/junit-jupiter-api-5.7.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/junit-jupiter-params-5.7.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/big-math-2.3.0.jar!/" />

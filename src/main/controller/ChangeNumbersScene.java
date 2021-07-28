@@ -3,24 +3,29 @@ package main.controller;
 import main.tasks.Task1;
 import main.view.Renderer;
 import main.view.Subscriber;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.math.BigInteger;
 import java.util.Objects;
 import java.util.Queue;
 
+@Component
 public class ChangeNumbersScene implements SceneState, Subscriber {
 
-    private final Renderer renderer;
+    @Autowired
+    private Renderer renderer;
     private final RenderedStatedClass statedClass;
 
     public ChangeNumbersScene(RenderedStatedClass statedClass){
-        renderer = new Renderer();
-        renderer.subscribe(this);
+        //renderer = new Renderer();
         this.statedClass = statedClass;
     }
     @Override
     public void render() {
         renderer.addInput("Enter a: ");
         renderer.addInput("Enter b: ");
+        renderer.subscribe(this);
         renderer.render();
     }
     private void renderResult(BigInteger a, BigInteger b){

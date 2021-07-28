@@ -15,7 +15,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -111,6 +110,7 @@ public class TasksTest {
             assertEquals(i, actual);
             //print message about the exact test case success
             System.out.println("The " + i + "-th passed");
+
         }
     }
 

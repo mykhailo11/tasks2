@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 public class Task4 {
 
-    private static final BigInteger LIMIT = BigInteger.valueOf(20000);
+    private static final BigInteger LIMIT = BigInteger.valueOf(99999);
 
     private Task4() { }
     public static BigInteger getFibonacciNumber(BigInteger index) throws ArithmeticException, NullPointerException{
